@@ -1,4 +1,4 @@
-.gameButton {
+.btn_game {
   color: black;
   border-radius: 0;
   cursor: pointer;
@@ -21,6 +21,6 @@
   gap: 0.5rem;
 }
 
-h1 {
+.wrapper {
   text-align: center;
 }
