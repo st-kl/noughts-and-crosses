@@ -119,12 +119,11 @@ const Game = () => {
       newValues.forEach((value) => {
         value[1] = false;
         value[0] = '';
-        return newValues;
       });
-
-      setCurrentTurn(-1);
-      setGameMessage(`Next Turn: ${player1}`);
+      return newValues;
     });
+    setCurrentTurn(-1);
+    setGameMessage(`Next Turn: ${player1}`);
   };
 
   return (
