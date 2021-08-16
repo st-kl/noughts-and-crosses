@@ -3,11 +3,11 @@
   cursor: pointer;
   border: none;
   cursor: pointer;
-  font-size: 3rem;
+  font-size: 2rem;
   border-radius: 20%;
   background-color: #e0e0e0;
-  width: 120px;
-  height: 120px;
+  width: 80px;
+  height: 80px;
 }
 
 .btn_reset {
@@ -17,10 +17,12 @@
 }
 
 .grid-container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  gap: 0.3rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 250px;
+  height: 250px;
+  margin: auto;
 }
 
 .message {
@@ -32,7 +34,7 @@ h1 {
 }
 
 .playerWrapper {
-  margin: 20px;
+  margin: 10px;
 }
 
 .player {
@@ -42,4 +44,27 @@ h1 {
 
 label {
   margin-right: 5px;
+}
+
+@media screen and (min-width: 769px) {
+  .btn_game {
+    color: #213580;
+    cursor: pointer;
+    border: none;
+    cursor: pointer;
+    font-size: 3rem;
+    border-radius: 20%;
+    background-color: #e0e0e0;
+    width: 120px;
+    height: 120px;
+  }
+
+  .grid-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 370px;
+    height: 370px;
+    margin: auto;
+  }
 }
