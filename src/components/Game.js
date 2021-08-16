@@ -42,11 +42,13 @@ const Game = () => {
       setCurrentTurn(currentTurn * -1);
       setGameMessage(`Next Turn: ${turnKey[currentTurn * -1]}`);
     }
+    // eslint-disable-next-line
   }, [combo]);
 
   useEffect(() => {
     setGameMessage(`Next Turn: ${turnKey[currentTurn]}`);
     setTitle(`${icons[player1].name} & ${icons[player2].name} `);
+    // eslint-disable-next-line
   }, [player1, player2]);
 
   // create buttons
