@@ -1,10 +1,21 @@
 import React, { useEffect, useState } from 'react';
 
 const Game = () => {
-  const [currentTurn, setCurrentTurn] = useState(1);
-  const turnKey = { '-1': 'X', 1: 'O' };
+  const icons = {
+    X: { name: 'Crosses' },
+    O: { name: 'Noughts' },
+    '🐧': { name: 'Penguins' },
+    '🐢': { name: 'Tortoises' },
+  };
+  const [player1, setPlayer1] = useState('X');
+  const [player2, setPlayer2] = useState('O');
+  const [title, setTitle] = useState(
+    `${icons[player1].name} & ${icons[player2].name}`
+  );
+  const turnKey = { '-1': player1, 1: player2 };
   const [combo, setCombo] = useState({ '-1': '', 1: '' });
-  const [gameOverMessage, setGameOverMessage] = useState(
+  const [currentTurn, setCurrentTurn] = useState(-1);
+  const [gameMessage, setGameMessage] = useState(
     `Next Turn: ${turnKey[currentTurn]}`
   );
   const [buttonValues, setButtonValues] = useState([
@@ -27,8 +38,16 @@ const Game = () => {
         newValues.forEach((value) => (value[1] = true));
         return newValues;
       });
+    } else if (combo['-1'].length + combo['1'].length > 0) {
+      setCurrentTurn(currentTurn * -1);
+      setGameMessage(`Next Turn: ${turnKey[currentTurn * -1]}`);
     }
   }, [combo]);
+
+  useEffect(() => {
+    setGameMessage(`Next Turn: ${turnKey[currentTurn]}`);
+    setTitle(`${icons[player1].name} & ${icons[player2].name} `);
+  }, [player1, player2]);
 
   // create buttons
   const createButtons = () => {
@@ -80,16 +99,15 @@ const Game = () => {
       buttonValues[1][0] + buttonValues[5][0] + buttonValues[9][0],
       buttonValues[3][0] + buttonValues[5][0] + buttonValues[7][0],
     ];
-    if (sumArray.includes('XXX') || sumArray.includes('OOO')) {
-      setGameOverMessage(`${turnKey[currentTurn]} has won!`);
+    if (
+      sumArray.includes(turnKey['-1'].repeat(3)) ||
+      sumArray.includes(turnKey['1'].repeat(3))
+    ) {
+      setGameMessage(`${turnKey[currentTurn]} has won!`);
       return true;
     } else if (combo['-1'].length + combo['1'].length === 9) {
-      setGameOverMessage(`Tie!`);
+      setGameMessage(`Tie!`);
       return true;
-    } else {
-      setCurrentTurn(currentTurn * -1);
-      setGameOverMessage(`Next Turn: ${turnKey[currentTurn * -1]}`);
-      return false;
     }
   };
 
@@ -98,24 +116,65 @@ const Game = () => {
     setCombo({ '-1': '', 1: '' });
     setButtonValues((currValues) => {
       const newValues = [...currValues];
-      newValues.forEach((value) => ((value[1] = false), (value[0] = '')));
-      return newValues;
+      newValues.forEach((value) => {
+        value[1] = false;
+        value[0] = '';
+        return newValues;
+      });
+
+      setCurrentTurn(-1);
+      setGameMessage(`Next Turn: ${player1}`);
     });
-    setCurrentTurn(1);
-    setGameOverMessage(`Next Turn: ${turnKey[currentTurn * -1]}`);
   };
 
   return (
-    <div className='wrapper'>
-      <h1>Noughts & Crosses</h1>
+    <div>
+      <h1>{title}</h1>
+      <div className='playerWrapper'>
+        <div className='player'>
+          <label>Player 1 </label>
+          <select
+            disabled={combo['-1'].length + combo['1'].length}
+            onChange={(icon) => {
+              setPlayer1(icon.target.value);
+            }}
+          >
+            {Object.keys(icons)
+              .filter((icon) => {
+                return icon !== player2;
+              })
+              .map((icon) => {
+                return <option key={`icon1${icon}`}>{icon}</option>;
+              })}
+          </select>
+        </div>
+        <div className='player'>
+          <label>Player 2</label>
+          <select
+            disabled={combo['-1'].length + combo['1'].length}
+            onChange={(icon) => {
+              setPlayer2(icon.target.value);
+            }}
+          >
+            {Object.keys(icons)
+              .filter((icon) => {
+                return icon !== player1;
+              })
+              .map((icon) => {
+                return <option key={`icon2${icon}`}>{icon}</option>;
+              })}
+          </select>
+        </div>
+      </div>
       <div className='grid-container'>{createButtons()}</div>
-      <p>{gameOverMessage}</p>
+      <p className='message'>{gameMessage}</p>
       <button
+        className='btn_reset'
         onClick={() => {
           resetGame();
         }}
       >
-        Reset
+        Restart Game
       </button>
     </div>
   );
