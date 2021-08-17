@@ -3,7 +3,8 @@
 ## Description
 
 A simple version of Noughts & Crosses (Tic-Tac-Toe) built with `React`.\
-It's designed to work on both laptops and mobile devices, and a productive version is hosted on Netlify: https://noughts-and-crosses-sk.netlify.app/.
+It's designed to work on both laptops and mobile devices, and a productive version is hosted on Netlify: \
+https://noughts-and-crosses-sk.netlify.app/.
 
 ### Features
 
